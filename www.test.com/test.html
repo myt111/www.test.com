@@ -1,0 +1,268 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>PHP基础语法考试题（一） - 在线考试系统</title>
+		<link rel="stylesheet" href="css/style.css">
+		<script src="js/jquery.min.js"></script>
+		<script src="js/jquery.timeout.js"></script>
+		<script>
+			$(function () {
+				//关闭页面前提示
+				$(window).on("beforeunload", function () {
+					return "您尚未交卷！此操作将导致您的回答丢失。";
+				});
+				timeOver = false; //保存当前是否已经达到交卷时间
+				//倒计时功能
+				$(".timeout").timeout({
+					//考试时间（页面刷新时，时间会重置。）
+					"maxTime": 1800,
+					//到达时间自动交卷。（如果浏览器禁用JavaScript，此功能不会生效）
+					"onTimeOver": function () {
+						timeOver = true;
+						alert("考试时间结束，系统自动交卷。");
+						$("#testForm").submit();//交卷
+					}
+				});
+				$("#testForm").submit(function (event) {
+					$(window).off("beforeunload");      //解除绑定页面关闭事件
+					timeOver || checkMultiple(event);	//检查多选题是否全部作答
+				});
+				//多选题至少选择一项
+				function checkMultiple(event) {
+					$(".jq-multiple .question-each").each(function () {
+						if ($(this).find(".question-option input[type=checkbox]:checked").length < 1) {
+							$(this).find(".question-option input[type=checkbox]:first").focus();
+							event.preventDefault();  //阻止表单提交
+							alert('您有多选题未作答。');
+							return false;
+						}
+					});
+				}
+				;
+			});
+		</script>
+	</head>
+	<body>
+		<div class="top">
+			<div class="top-title">正在考试 （剩余时间 <span class="timeout"></span>）</div>
+		</div>
+		<div class="main">
+			<div class="main-wrap">
+				<!-- 顶部标题 -->
+				<div class="question-top">
+					<!-- 试卷标题 -->
+					<div class="question-title">PHP基础语法考试题（一）</div>
+					<!-- 题型导航 -->
+					<div class="question-nav">
+						<a href="#binary">判断题</a>
+						<a href="#single">单选题</a>
+						<a href="#multiple">多选题</a>
+						<a href="#fill">填空题</a>
+					</div>
+				</div>
+				<!-- 题目内容 -->
+				<form action="total.php?id=1" method="post" id="testForm">
+					<!-- 判断题 -->
+					<div id="binary" class="anchor" ></div>
+					<div class="question-wrap">
+						<div class="question-type">一、判断题<span>（共5题，每题4分）</span></div>
+						<div class="question-each">
+							<!-- 标题 -->
+							<div class="question-name">1. 使用PHP写好的程序，在Linux和Windows平台上都可以运行。</div>
+							<!-- 选项 -->
+							<div class="question-option">
+								<label><input type="radio" value="yes" name="binary[1]" required>对</label>
+								<label><input type="radio" value="no" name="binary[1]" required>错</label>
+							</div>
+						</div>
+						<div class="question-each">
+							<!-- 标题 -->
+							<div class="question-name">2. PHP可以支持MySQL数据库，但不支持其它的数据库。</div>
+							<!-- 选项 -->
+							<div class="question-option">
+								<label><input type="radio" value="yes" name="binary[2]" required>对</label>
+								<label><input type="radio" value="no" name="binary[2]" required>错</label>
+							</div>
+						</div>
+						<div class="question-each">
+							<!-- 标题 -->
+							<div class="question-name">3. PHP有很多流行的MVC框架，这些框架可以使PHP的开发更加快捷。</div>
+							<!-- 选项 -->
+							<div class="question-option">
+								<label><input type="radio" value="yes" name="binary[3]" required>对</label>
+								<label><input type="radio" value="no" name="binary[3]" required>错</label>
+							</div>
+						</div>
+						<div class="question-each">
+							<!-- 标题 -->
+							<div class="question-name">4. Zend&nbsp;Studio是PHP中常用的IDE（集成开发环境）。</div>
+							<!-- 选项 -->
+							<div class="question-option">
+								<label><input type="radio" value="yes" name="binary[4]" required>对</label>
+								<label><input type="radio" value="no" name="binary[4]" required>错</label>
+							</div>
+						</div>
+						<div class="question-each">
+							<!-- 标题 -->
+							<div class="question-name">5. 进行PHP程序开发时，可以借助软件和工具来提高效率。</div>
+							<!-- 选项 -->
+							<div class="question-option">
+								<label><input type="radio" value="yes" name="binary[5]" required>对</label>
+								<label><input type="radio" value="no" name="binary[5]" required>错</label>
+							</div>
+						</div>
+					</div>
+					<!-- 单选题 -->
+					<div id="single" class="anchor" ></div>
+					<div class="question-wrap">
+						<div class="question-type">二、单选题<span>（共5题，每题6分）</span></div>
+						<div class="question-each">
+							<!-- 标题 -->
+							<div class="question-name">1. 下列选项中，不是URL地址中所包含的信息是（&nbsp;）。</div>
+							<!-- 选项 -->
+							<div class="question-option">
+								<label><input type="radio" value="A" name="single[1]" required>A. 主机名</label>
+								<label><input type="radio" value="B" name="single[1]" required>B. 端口号</label>
+								<label><input type="radio" value="C" name="single[1]" required>C. 网络协议</label>
+								<label><input type="radio" value="D" name="single[1]" required>D. 软件版本</label>
+							</div>
+						</div>
+						<div class="question-each">
+							<!-- 标题 -->
+							<div class="question-name">2. PHP是一种（&nbsp;）的编程语言。</div>
+							<!-- 选项 -->
+							<div class="question-option">
+								<label><input type="radio" value="A" name="single[2]" required>A. 解释型</label>
+								<label><input type="radio" value="B" name="single[2]" required>B. 编译型</label>
+								<label><input type="radio" value="C" name="single[2]" required>C. 两者都是</label>
+								<label><input type="radio" value="D" name="single[2]" required>D. 两者都不是</label>
+							</div>
+						</div>
+						<div class="question-each">
+							<!-- 标题 -->
+							<div class="question-name">3. PHP支持多种风格的标记，以下不是PHP标记的是（&nbsp;）。</div>
+							<!-- 选项 -->
+							<div class="question-option">
+								<label><input type="radio" value="A" name="single[3]" required>A. &lt;?php&nbsp;&nbsp;?&gt;</label>
+								<label><input type="radio" value="B" name="single[3]" required>B. &lt;?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;?&gt;</label>
+								<label><input type="radio" value="C" name="single[3]" required>C. &lt;!--&nbsp;&nbsp;&nbsp;&nbsp;--&gt;</label>
+								<label><input type="radio" value="D" name="single[3]" required>D. &lt;%&nbsp;&nbsp;&nbsp;&nbsp;%&gt;</label>
+							</div>
+						</div>
+						<div class="question-each">
+							<!-- 标题 -->
+							<div class="question-name">4. 下列选项中，函数返回的关键字是（&nbsp;）。</div>
+							<!-- 选项 -->
+							<div class="question-option">
+								<label><input type="radio" value="A" name="single[4]" required>A. back</label>
+								<label><input type="radio" value="B" name="single[4]" required>B. go</label>
+								<label><input type="radio" value="C" name="single[4]" required>C. return</label>
+								<label><input type="radio" value="D" name="single[4]" required>D. break</label>
+							</div>
+						</div>
+						<div class="question-each">
+							<!-- 标题 -->
+							<div class="question-name">5. PHP中存在多种变量，其中在函数内部定义的变量称之为（&nbsp;）。</div>
+							<!-- 选项 -->
+							<div class="question-option">
+								<label><input type="radio" value="A" name="single[5]" required>A. 可变变量</label>
+								<label><input type="radio" value="B" name="single[5]" required>B. 局部变量</label>
+								<label><input type="radio" value="C" name="single[5]" required>C. 全局变量</label>
+								<label><input type="radio" value="D" name="single[5]" required>D. 内部变量</label>
+							</div>
+						</div>
+					</div>
+					<!-- 多选题 -->
+					<div id="multiple" class="anchor" ></div>
+					<div class="question-wrap jq-multiple">
+						<div class="question-type">三、多选题<span>（共5题，每题6分）</span></div>
+						<div class="question-each">
+							<!-- 标题 -->
+							<div class="question-name">1. 下列选项中，关于数据类型的说法描述正确的是（&nbsp;）。</div>
+							<!-- 选项 -->
+							<div class="question-option">
+								<label><input type="checkbox" value="A" name="multiple[1][]">A. 浮点数指的是数学中的小数，不能保存整数</label>
+								<label><input type="checkbox" value="B" name="multiple[1][]">B. 在双引号内的变量会被解析，而单引号内的变量会被原样输出</label>
+								<label><input type="checkbox" value="C" name="multiple[1][]">C. 布尔类型只有true和false两个值，且区分大小写</label>
+								<label><input type="checkbox" value="D" name="multiple[1][]">D. 对于整数59可以使用十六进制数0x3b进行表示</label>
+							</div>
+						</div>
+						<div class="question-each">
+							<!-- 标题 -->
+							<div class="question-name">2. 下列选项中，可以作为PHP的输出语句的是（&nbsp;）。</div>
+							<!-- 选项 -->
+							<div class="question-option">
+								<label><input type="checkbox" value="A" name="multiple[2][]">A. echo</label>
+								<label><input type="checkbox" value="B" name="multiple[2][]">B. var_dump</label>
+								<label><input type="checkbox" value="C" name="multiple[2][]">C. print_r</label>
+								<label><input type="checkbox" value="D" name="multiple[2][]">D. 以上答案都不正确</label>
+							</div>
+						</div>
+						<div class="question-each">
+							<!-- 标题 -->
+							<div class="question-name">3. 下面关于if语句的说法正确的是（&nbsp;）。</div>
+							<!-- 选项 -->
+							<div class="question-option">
+								<label><input type="checkbox" value="A" name="multiple[3][]">A. if语句也成为单分支语句</label>
+								<label><input type="checkbox" value="B" name="multiple[3][]">B. if语句的判断条件是布尔类型数据</label>
+								<label><input type="checkbox" value="C" name="multiple[3][]">C. if语句的判断条件是一个字符串类型数据</label>
+								<label><input type="checkbox" value="D" name="multiple[3][]">D. 以上答案都不正确</label>
+							</div>
+						</div>
+						<div class="question-each">
+							<!-- 标题 -->
+							<div class="question-name">4. 下列选项中，可以用来操作数组的运算符是（&nbsp;）。</div>
+							<!-- 选项 -->
+							<div class="question-option">
+								<label><input type="checkbox" value="A" name="multiple[4][]">A. 联合&nbsp;+</label>
+								<label><input type="checkbox" value="B" name="multiple[4][]">B. 自增&nbsp;++</label>
+								<label><input type="checkbox" value="C" name="multiple[4][]">C. 相等&nbsp;==</label>
+								<label><input type="checkbox" value="D" name="multiple[4][]">D. 全等&nbsp;===</label>
+							</div>
+						</div>
+						<div class="question-each">
+							<!-- 标题 -->
+							<div class="question-name">5. 若在当前运行的脚本中需要调用其他文件的函数，可以使用以下哪个语句（&nbsp;）。</div>
+							<!-- 选项 -->
+							<div class="question-option">
+								<label><input type="checkbox" value="A" name="multiple[5][]">A. import</label>
+								<label><input type="checkbox" value="B" name="multiple[5][]">B. namespace</label>
+								<label><input type="checkbox" value="C" name="multiple[5][]">C. include</label>
+								<label><input type="checkbox" value="D" name="multiple[5][]">D. require</label>
+							</div>
+						</div>
+					</div>
+					<!-- 填空题 -->
+					<div id="fill" class="anchor" ></div>
+					<div class="question-wrap">
+						<div class="question-type">四、填空题<span>（共2题，每题10分）</span></div>
+						<div class="question-each">
+							<!-- 标题 -->
+							<div class="question-name">1. Apache的httpd服务程序默认使用的是____端口。</div>
+							<!-- 选项 -->
+							<div class="question-option">
+								<span>请输入答案：<input type="text" name="fill[1]" required></span>
+							</div>
+						</div>
+						<div class="question-each">
+							<!-- 标题 -->
+							<div class="question-name">2. 在PHP中，____函数能将数组转化为字符串。</div>
+							<!-- 选项 -->
+							<div class="question-option">
+								<span>请输入答案：<input type="text" name="fill[2]" required></span>
+							</div>
+						</div>
+					</div>
+					<div class="question-act">
+						<input type="submit" value="交卷" >
+					</div>
+				</form>
+			</div>
+		</div>
+		<div class="footer">
+			PHP在线考试系统　本项目仅供学习使用
+		</div>
+	</body>
+</html>
